@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import Image from 'next/image'
 import { cache } from 'react' // Import cache
 import ActivityTimeline from '@/app/components/ActivityTimeline' // Import ActivityTimeline
+import AIBriefing from '@/app/components/AIBriefing' // Import AIBriefing
 
 type ActivityType = Database['public']['Enums']['activity_type']
 
@@ -17,6 +18,7 @@ export default async function Home() {
   const { data: { user } } = await supabase.auth.getUser()
   let userFamilyId: string | null = null
   let activities: Database['public']['Tables']['activities']['Row'][] = []
+  // aiBriefing 변수 및 호출 로직 제거
 
   if (user) {
     const { data: profile, error: profileError } = await supabase
@@ -85,12 +87,7 @@ export default async function Home() {
 
       <main className="w-full max-w-lg flex flex-col gap-6 py-6">
         {/* Top: AI Briefing Area - Phase 4 */}
-        <section className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-4">
-          <h2 className="text-xl font-semibold mb-2">AI Health Briefing</h2>
-          <p className="text-gray-700 dark:text-gray-300">
-            "오늘 초코는 산책을 2번 했고 배변 상태도 좋습니다! 아주 건강한 하루네요." (Phase 4에서 연동)
-          </p>
-        </section>
+        {userFamilyId && <AIBriefing familyId={userFamilyId} />}
 
         {/* Central: Quick Log Buttons */}
         <section className="grid grid-cols-2 gap-4">

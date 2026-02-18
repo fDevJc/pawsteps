@@ -1,5 +1,6 @@
 'use server'
 
+import { getGeminiResponse } from '@/app/lib/gemini';
 import { revalidatePath } from 'next/cache'
 import { getSupabaseServerClient } from './server'
 import { Database } from '@/types/supabase'
@@ -261,4 +262,34 @@ export async function handleAddActivityWalk() {
 export async function handleAddActivityMedicine() {
   'use server'
   await addActivity('medicine')
+}
+
+export async function getAIHealthBriefing(): Promise<string> {
+  'use server'
+  const activities = await getActivities(); // Re-use the existing getActivities function
+
+  if (activities.length === 0) {
+    return "아직 기록된 활동이 없어 건강 브리핑을 생성할 수 없습니다.";
+  }
+
+  // Group activities by type and count them
+  const activitySummary: { [key: string]: number } = {};
+  activities.forEach(activity => {
+    activitySummary[activity.type] = (activitySummary[activity.type] || 0) + 1;
+  });
+
+  // Construct a prompt for Gemini
+  let prompt = "반려동물의 최근 활동 기록이 다음과 같습니다: ";
+  Object.entries(activitySummary).forEach(([type, count]) => {
+    prompt += `${type} ${count}회, `;
+  });
+  prompt = prompt.slice(0, -2) + ". 이 정보를 바탕으로 반려동물의 오늘 건강 상태를 한 줄로 요약해 주세요. 친근하고 긍정적인 말투로 작성해주세요.";
+
+  try {
+    const aiResponse = await getGeminiResponse(prompt);
+    return aiResponse;
+  } catch (error) {
+    console.error('Error calling Gemini API for health briefing:', error);
+    return "AI 건강 브리핑을 가져오는 데 실패했습니다. 잠시 후 다시 시도해주세요.";
+  }
 }
