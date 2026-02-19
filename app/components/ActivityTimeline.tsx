@@ -86,7 +86,6 @@ export default function ActivityTimeline({ initialActivities, familyId }: Activi
                   hour: 'numeric',
                   minute: 'numeric',
                   second: 'numeric',
-                  hour12: false // 24시간 형식
                 }) : null}
               </p>
             </li>
