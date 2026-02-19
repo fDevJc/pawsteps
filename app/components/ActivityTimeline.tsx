@@ -79,7 +79,7 @@ export default function ActivityTimeline({ initialActivities, familyId }: Activi
                 {activity.note && `(${activity.note})`}
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {mounted ? new Date(activity.created_at).toLocaleString('ko-KR', {
+                {mounted && activity.created_at ? new Date(activity.created_at).toLocaleString('ko-KR', {
                   year: 'numeric',
                   month: 'numeric',
                   day: 'numeric',
