@@ -26,7 +26,7 @@ export async function getSupabaseServerClient() {
         },
         remove(name: string, options: any) {
           try {
-            cookieStore.delete(name, options);
+            cookieStore.delete(name);
           } catch (error) {
             // The `cookies()` may not be available in a Server Component.
             // If this happens, you can ignore this error.
