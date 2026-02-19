@@ -45,7 +45,7 @@ export type Database = {
           family_id: string | null
           id: string
           note: string | null
-          type: string
+          type: Database["public"]["Enums"]["activity_type"]
           user_id: string
         }
         Insert: {
@@ -53,7 +53,7 @@ export type Database = {
           family_id?: string | null
           id?: string
           note?: string | null
-          type: string
+          type: Database["public"]["Enums"]["activity_type"]
           user_id: string
         }
         Update: {
@@ -61,7 +61,7 @@ export type Database = {
           family_id?: string | null
           id?: string
           note?: string | null
-          type?: string
+          type?: Database["public"]["Enums"]["activity_type"]
           user_id?: string
         }
         Relationships: [
@@ -123,7 +123,7 @@ export type Database = {
       get_user_family_id: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      activity_type: "meal" | "poop" | "walk" | "medicine"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -253,6 +253,8 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      activity_type: ["meal", "poop", "walk", "medicine"],
+    },
   },
 } as const
