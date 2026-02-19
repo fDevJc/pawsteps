@@ -6,6 +6,13 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
 
+  // --- Start Debugging Logs ---
+  console.log('--- Auth Callback Debug ---');
+  console.log('Full request URL:', request.url);
+  console.log('Request Origin:', requestUrl.origin);
+  console.log('Code parameter:', code);
+  console.log('--- End Debugging Logs ---');
+
   if (code) {
     const cookieStore = cookies()
     const supabase = await getSupabaseServerClient()
