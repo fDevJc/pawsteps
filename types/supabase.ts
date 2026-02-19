@@ -42,6 +42,7 @@ export type Database = {
       activities: {
         Row: {
           created_at: string | null
+          family_id: string | null
           id: string
           note: string | null
           type: string
@@ -49,6 +50,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          family_id?: string | null
           id?: string
           note?: string | null
           type: string
@@ -56,19 +58,69 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          family_id?: string | null
           id?: string
           note?: string | null
           type?: string
           user_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "activities_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      families: {
+        Row: {
+          id: string
+          name: string | null
+        }
+        Insert: {
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          id?: string
+          name?: string | null
+        }
         Relationships: []
+      }
+      profiles: {
+        Row: {
+          family_id: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          family_id?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          family_id?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_family_id: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never
