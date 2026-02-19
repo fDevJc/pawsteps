@@ -23,7 +23,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `https://pawsteps.vercel.app/auth/callback`,
       },
     })
   }
